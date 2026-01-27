@@ -1,0 +1,20 @@
+{
+  "name": "@ksip1/iut-encrypt",
+  "version": "1.0.0",
+  "description": "Module de cryptage de mots de passe pour IUT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksip1/r6a.05.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ksip1/r6a.05/issues"
+  },
+  "homepage": "https://github.com/ksip1/r6a.05#readme"
+}
