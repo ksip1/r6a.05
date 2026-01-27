@@ -4,16 +4,13 @@ module.exports = {
     method: 'get',
     path: '/users',
     options: {
-        tags: ['api'], // Pour l'afficher dans Swagger
+        tags: ['api'],
         description: 'Get all users'
     },
     handler: async (request, h) => {
-        const { User } = request.models();
+        const { userService } = request.services();
 
-        // Récupère tous les utilisateurs
-        // Pas besoin de paramètres dans query() pour un "Select * from user"
-        const users = await User.query();
-
-        return users;
+        // Appel au service
+        return await userService.findAll();
     }
 };

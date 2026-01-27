@@ -15,14 +15,10 @@ module.exports = {
         }
     },
     handler: async (request, h) => {
-        const { User } = request.models();
 
-        // Insertion en base de données
-        const user = await User.query().insertAndFetch({
-            firstName: request.payload.firstName,
-            lastName: request.payload.lastName
-        });
+        const { userService } = request.services();
 
-        return user;
+
+        return await userService.create(request.payload);
     }
 };
