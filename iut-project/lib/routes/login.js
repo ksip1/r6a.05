@@ -6,6 +6,7 @@ module.exports = {
     method: 'post',
     path: '/user/login',
     options: {
+        auth: false,
         tags: ['api'],
         validate: {
             payload: Joi.object({

@@ -31,13 +31,9 @@ module.exports = new Confidence.Store({
     register: {
         plugins: [
             {
-                plugin: '../lib', // Main plugin
+                plugin: '../lib', // Main plugin (Il charge automatiquement tes plugins dans lib/plugins/)
                 options: {}
             },
-            {
-                plugin: './plugins/swagger'
-            },
-
             {
                 plugin: '@hapipal/schwifty',
                 options: {
@@ -46,9 +42,9 @@ module.exports = new Confidence.Store({
                     $base: {
                         migrateOnStart: true,
                         knex: {
-                            client: 'mysql', // On passe en MySQL
+                            client: 'mysql',
                             connection: {
-                                host: process.env.DB_HOST || '127.0.0.1', // 127.0.0.1 est plus sûr que 0.0.0.0 sur WSL
+                                host: process.env.DB_HOST || '127.0.0.1',
                                 user: process.env.DB_USER || 'root',
                                 password: process.env.DB_PASSWORD || 'hapi',
                                 database: process.env.DB_DATABASE || 'user',
@@ -61,7 +57,6 @@ module.exports = new Confidence.Store({
                     }
                 }
             },
-            
             {
                 plugin: {
                     $filter: { $env: 'NODE_ENV' },

@@ -7,17 +7,20 @@ module.exports = {
     path: '/user/{id}',
     options: {
         tags: ['api'],
+        auth: {
+            scope: ['admin']
+        },
         validate: {
             params: Joi.object({
                 id: Joi.number().integer().required()
             }),
-
             payload: Joi.object({
                 firstName: Joi.string().min(3),
                 lastName: Joi.string().min(3),
                 username: Joi.string(),
                 mail: Joi.string().email(),
-                password: Joi.string().min(8)
+                password: Joi.string().min(8),
+                scope: Joi.array().items(Joi.string())
             }).min(1)
         }
     },

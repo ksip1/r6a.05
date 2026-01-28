@@ -5,12 +5,15 @@ module.exports = {
     path: '/users',
     options: {
         tags: ['api'],
+        auth: {
+            scope: ['user', 'admin']
+        },
         description: 'Get all users'
     },
     handler: async (request, h) => {
         const { userService } = request.services();
 
-        // Appel au service
+
         return await userService.findAll();
     }
 };

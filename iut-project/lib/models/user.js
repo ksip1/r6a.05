@@ -9,14 +9,21 @@ module.exports = class User extends Model {
         return 'user';
     }
 
+
+    static get jsonAttributes() {
+        return ['scope'];
+    }
+
     static get joiSchema() {
         return Joi.object({
             id: Joi.number().integer().greater(0),
-            firstName: Joi.string().min(3).example('John').description('Firstname of the user'),
-            lastName: Joi.string().min(3).example('Doe').description('Lastname of the user'),
-            username: Joi.string().required().example('johndoe').description('Username'),
-            mail: Joi.string().email().required().example('john@doe.fr').description('Email address'),
-            password: Joi.string().min(8).required().example('supersecret').description('User password'),
+            firstName: Joi.string().min(3).example('John'),
+            lastName: Joi.string().min(3).example('Doe'),
+            username: Joi.string().required(),
+            mail: Joi.string().email().required(),
+            password: Joi.string().min(8).required(),
+
+            scope: Joi.array().items(Joi.string()).example(['user']),
 
             createdAt: Joi.date(),
             updatedAt: Joi.date()
@@ -26,6 +33,11 @@ module.exports = class User extends Model {
     $beforeInsert(queryContext) {
         this.updatedAt = new Date();
         this.createdAt = this.updatedAt;
+
+
+        if (!this.scope) {
+            this.scope = ['user'];
+        }
     }
 
     $beforeUpdate(opt, queryContext) {

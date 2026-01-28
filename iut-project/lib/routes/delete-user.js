@@ -7,6 +7,9 @@ module.exports = {
     path: '/user/{id}',
     options: {
         tags: ['api'],
+        auth: {
+            scope: ['admin']
+        },
         validate: {
 
             params: Joi.object({
