@@ -10,11 +10,19 @@ module.exports = class UserService extends Service {
 
     async create(user) {
         const { User } = this.server.models();
-
+        const { mailService } = this.server.services();
 
         user.password = Encrypt.sha1(user.password);
 
-        return User.query().insertAndFetch(user);
+
+        const newUser = await User.query().insertAndFetch(user);
+
+
+        mailService.sendWelcome(newUser).catch(err => {
+            console.error("Erreur lors de l'envoi du mail :", err);
+        });
+
+        return newUser;
     }
 
 
@@ -33,7 +41,6 @@ module.exports = class UserService extends Service {
     update(id, userPayload) {
         const { User } = this.server.models();
 
-
         if (userPayload.password) {
             userPayload.password = Encrypt.sha1(userPayload.password);
         }
@@ -41,7 +48,7 @@ module.exports = class UserService extends Service {
         return User.query().patchAndFetchById(id, userPayload);
     }
 
-
+    // --- LOGIN ---
     async login(mail, password) {
         const { User } = this.server.models();
 
@@ -55,10 +62,12 @@ module.exports = class UserService extends Service {
             throw Boom.unauthorized('Email ou mot de passe incorrect');
         }
 
+
         const token = Jwt.token.generate(
             {
                 aud: 'urn:audience:iut',
                 iss: 'urn:issuer:iut',
+                id: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.mail,

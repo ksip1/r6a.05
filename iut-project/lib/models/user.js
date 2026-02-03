@@ -30,6 +30,26 @@ module.exports = class User extends Model {
         });
     }
 
+    static get relationMappings() {
+
+        const Film = require('./film');
+
+        return {
+            favorites: {
+                relation: Model.ManyToManyRelation,
+                modelClass: Film,
+                join: {
+                    from: 'user.id',
+                    through: {
+                        from: 'favorite.user_id',
+                        to: 'favorite.film_id'
+                    },
+                    to: 'film.id'
+                }
+            }
+        };
+    }
+
     $beforeInsert(queryContext) {
         this.updatedAt = new Date();
         this.createdAt = this.updatedAt;
