@@ -59,4 +59,20 @@ module.exports = class MailService extends Service {
         });
         console.log("Update Film Mail sent: %s", Nodemailer.getTestMessageUrl(info));
     }
+
+    async sendExportEmail(email, csvContent) {
+        const info = await this.transporter.sendMail({
+            from: '"Ciné IUT" <no-reply@cine-iut.fr>',
+            to: email,
+            subject: "Votre export de films est prêt 🎬",
+            text: "Vous trouverez ci-joint la liste des films au format CSV.",
+            attachments: [
+                {
+                    filename: 'films.csv',
+                    content: csvContent 
+                }
+            ]
+        });
+        console.log("Export CSV sent: %s", Nodemailer.getTestMessageUrl(info));
+    }
 };
